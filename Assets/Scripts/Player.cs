@@ -34,10 +34,13 @@ public class Player : MonoBehaviour
 	
 	void Update() 
 	{
+		if (!isAlive) { return; }
+
 		Run();
 		Jump();
 		FlipSprite();
 		ClimbLadder();
+		Die();
 	}
 
 	private void Run()
@@ -86,6 +89,15 @@ public class Player : MonoBehaviour
 
 		bool playerHasClimbingSpeed = Mathf.Abs(myRigidBody.velocity.y) > Mathf.Epsilon;
 		myAnimator.SetBool("Climbing", playerHasClimbingSpeed);	
+	}
 
+	private void Die()
+	{
+		if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemy")))
+		{
+			isAlive = false;
+			myAnimator.SetTrigger("Dying");
+			Destroy(myRigidBody);
+		}
 	}
 }

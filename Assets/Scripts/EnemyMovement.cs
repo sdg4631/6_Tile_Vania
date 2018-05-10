@@ -7,12 +7,11 @@ public class EnemyMovement : MonoBehaviour
 	[SerializeField] float moveSpeed = 1f;
 	
 	Rigidbody2D myRigidBody;
-	BoxCollider2D edgeCollider;
+	
 
 	void Start()
 	{
 		myRigidBody = GetComponent<Rigidbody2D>();
-		edgeCollider = GetComponent<BoxCollider2D>();
 	}
 	
 	
