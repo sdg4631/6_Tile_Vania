@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
 	CapsuleCollider2D myBodyCollider;
 	BoxCollider2D myFeetCollider;
 	float gravityScaleAtStart;
+	Vector2 velocityAtStart;
 
 
 	// Messages then methods
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour
 		myBodyCollider = GetComponent<CapsuleCollider2D>();	
 		myFeetCollider = GetComponent<BoxCollider2D>();
 		gravityScaleAtStart = myRigidBody.gravityScale;
+		velocityAtStart = myRigidBody.velocity;
 	}
 	
 	void Update() 
@@ -78,6 +80,7 @@ public class Player : MonoBehaviour
 		if (!myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ladders"))) 
 		{ 
 			myAnimator.SetBool("Climbing", false);
+			myAnimator.SetBool("ClimbingIdle", false);
 			myRigidBody.gravityScale = gravityScaleAtStart;
 			return; 
 		}
@@ -86,9 +89,19 @@ public class Player : MonoBehaviour
 		Vector2 climbVelocity = new Vector2(myRigidBody.velocity.x, controlThrow * climbSpeed);
 		myRigidBody.velocity = climbVelocity;
 		myRigidBody.gravityScale = 0f;
-
+		
+		
 		bool playerHasClimbingSpeed = Mathf.Abs(myRigidBody.velocity.y) > Mathf.Epsilon;
 		myAnimator.SetBool("Climbing", playerHasClimbingSpeed);	
+
+		if (!playerHasClimbingSpeed)
+		{
+			myAnimator.SetBool("ClimbingIdle", true);
+		}
+		else
+		{
+			myAnimator.SetBool("ClimbingIdle", false);
+		}
 	}
 
 	private void Die()
@@ -97,6 +110,8 @@ public class Player : MonoBehaviour
 		{
 			isAlive = false;
 			myAnimator.SetTrigger("Dying");
+			myRigidBody.velocity = velocityAtStart;
+			Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), true);			
 		}
 	}
 }
