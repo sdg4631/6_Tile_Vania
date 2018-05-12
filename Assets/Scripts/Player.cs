@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
 	// Config
 	[SerializeField] float runSpeed = 7f;
+	[SerializeField] float sprintSpeed = 14f;
 	[SerializeField] float jumpSpeed = 17f;
 	[SerializeField] float climbSpeed = 7f;
 
@@ -48,11 +49,23 @@ public class Player : MonoBehaviour
 	private void Run()
 	{
 		float horizontalThrow = CrossPlatformInputManager.GetAxis("Horizontal"); // value is between -1 and +1
-		Vector2 playerVelocity = new Vector2(horizontalThrow * runSpeed, myRigidBody.velocity.y);	
-		myRigidBody.velocity = playerVelocity;	
-
 		bool playerHasHorizontalSpeed = Mathf.Abs(myRigidBody.velocity.x) > Mathf.Epsilon;
-		myAnimator.SetBool("Running", playerHasHorizontalSpeed);	
+
+		if (CrossPlatformInputManager.GetButton("Sprint") && playerHasHorizontalSpeed)
+		{
+			Vector2 playerVelocity = new Vector2(horizontalThrow * sprintSpeed, myRigidBody.velocity.y);	
+			myRigidBody.velocity = playerVelocity;	
+
+			myAnimator.SetBool("Sprinting", true);
+		}
+		else 
+		{
+			Vector2 playerVelocity = new Vector2(horizontalThrow * runSpeed, myRigidBody.velocity.y);	
+			myRigidBody.velocity = playerVelocity;	
+
+			myAnimator.SetBool("Running", playerHasHorizontalSpeed);
+			myAnimator.SetBool("Sprinting", false);
+		}			
 	}
 
 	private void Jump()
