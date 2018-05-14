@@ -124,7 +124,19 @@ public class Player : MonoBehaviour
 			isAlive = false;
 			myAnimator.SetTrigger("Dying");
 			myRigidBody.velocity = velocityAtStart;
-			Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), true);			
+			Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), true);	
+			Invoke("ProcessDeathAfterDelay", 2f);	
 		}
+		else
+		{
+			Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), false);
+		}
+		
+		
+	}
+
+	private void ProcessDeathAfterDelay()
+	{
+		FindObjectOfType<GameSession>().ProcessPlayerDeath();
 	}
 }
