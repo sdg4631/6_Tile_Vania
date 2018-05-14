@@ -45,6 +45,9 @@ TagManager:
   - name: Background
     uniqueID: 880937159
     locked: 0
+  - name: Controls
+    uniqueID: 2655670395
+    locked: 0
   - name: Climbing
     uniqueID: 2318954245
     locked: 0
