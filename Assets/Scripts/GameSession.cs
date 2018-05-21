@@ -7,11 +7,12 @@ using TMPro;
 
 public class GameSession : MonoBehaviour 
 {
-	[SerializeField] int playerLives = 3;
+	[SerializeField] int playerHearts = 3;
 	[SerializeField] int score = 0;
 
-	[SerializeField] TextMeshProUGUI livesText;
 	[SerializeField] TextMeshProUGUI scoreText;
+
+	[SerializeField] GameObject heart1, heart2, heart3;
 
 
 
@@ -30,11 +31,45 @@ public class GameSession : MonoBehaviour
 
 	void Start()
 	{
-		livesText.text = playerLives.ToString();
 		scoreText.text = score.ToString();
 	}
 
-	public void AddToScore(int pointsToAdd)
+	void Update()
+	{
+		DisplayPlayerHearts();
+		ProcessPlayerDeath();
+	}
+
+    private void DisplayPlayerHearts()
+    {
+		if (playerHearts > 3) { playerHearts = 3; }
+
+        switch (playerHearts)
+		{
+			case 3:
+				heart3.gameObject.SetActive(true);
+				heart2.gameObject.SetActive(true);
+				heart1.gameObject.SetActive(true);
+				break;
+			case 2:
+				heart3.gameObject.SetActive(false);
+				heart2.gameObject.SetActive(true);
+				heart1.gameObject.SetActive(true);
+				break;	
+			case 1:
+				heart3.gameObject.SetActive(false);
+				heart2.gameObject.SetActive(false);
+				heart1.gameObject.SetActive(true);
+				break;
+			case 0:
+				heart3.gameObject.SetActive(false);
+				heart2.gameObject.SetActive(false);
+				heart1.gameObject.SetActive(false);
+				break;
+		}
+    }
+
+    public void AddToScore(int pointsToAdd)
 	{
 		score += pointsToAdd;
 		scoreText.text = score.ToString();
@@ -42,22 +77,15 @@ public class GameSession : MonoBehaviour
 
 	public void ProcessPlayerDeath()
 	{
-		if (playerLives > 1)
+		 if (playerHearts < 1)
 		{
-			TakeLife();
-		}
-		else
-		{
-			ResetGameSession();
+			Invoke("ResetGameSession", 4f);
 		}
 	}
 
-    private void TakeLife()
+    public void TakeHeart()
     {
-        playerLives--;
-		int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-		SceneManager.LoadScene(currentSceneIndex);
-		livesText.text = playerLives.ToString();
+        playerHearts--;		
     }
 
     private void ResetGameSession()

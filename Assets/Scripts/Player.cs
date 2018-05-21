@@ -10,10 +10,19 @@ public class Player : MonoBehaviour
 	[SerializeField] float sprintSpeed = 14f;
 	[SerializeField] float jumpSpeed = 17f;
 	[SerializeField] float climbSpeed = 7f;
+	[SerializeField] int playerHitPoints = 3;
+
+	public bool knockFromRight;
+	public float knockbackCount;
+	public float knockbackLength;
+	public float knockbackX;
+	public float knockbackY;
+
 
 
 	// State
 	bool isAlive = true;
+	bool invulnerable = false;
 	
 	// Cached Component References
 	Rigidbody2D myRigidBody;
@@ -22,7 +31,6 @@ public class Player : MonoBehaviour
 	BoxCollider2D myFeetCollider;
 	float gravityScaleAtStart;
 	Vector2 velocityAtStart;
-
 
 	// Messages then methods
 	void Start() 
@@ -33,6 +41,9 @@ public class Player : MonoBehaviour
 		myFeetCollider = GetComponent<BoxCollider2D>();
 		gravityScaleAtStart = myRigidBody.gravityScale;
 		velocityAtStart = myRigidBody.velocity;
+
+		// makes sure enemy collision is enabled at start
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), false);
 	}
 	
 	void Update() 
@@ -43,29 +54,34 @@ public class Player : MonoBehaviour
 		Jump();
 		FlipSprite();
 		ClimbLadder();
+		TakeDamage();
+		Knockback();
 		Die();
 	}
 
 	private void Run()
 	{
-		float horizontalThrow = CrossPlatformInputManager.GetAxis("Horizontal"); // value is between -1 and +1
-		bool playerHasHorizontalSpeed = Mathf.Abs(myRigidBody.velocity.x) > Mathf.Epsilon;
-
-		if (CrossPlatformInputManager.GetButton("Sprint") && playerHasHorizontalSpeed)
+		if (knockbackCount <= 0)
 		{
-			Vector2 playerVelocity = new Vector2(horizontalThrow * sprintSpeed, myRigidBody.velocity.y);	
-			myRigidBody.velocity = playerVelocity;	
+			float horizontalThrow = CrossPlatformInputManager.GetAxis("Horizontal"); // value is between -1 and +1
+			bool playerHasHorizontalSpeed = Mathf.Abs(myRigidBody.velocity.x) > Mathf.Epsilon;
 
-			myAnimator.SetBool("Sprinting", true);
-		}
-		else 
-		{
-			Vector2 playerVelocity = new Vector2(horizontalThrow * runSpeed, myRigidBody.velocity.y);	
-			myRigidBody.velocity = playerVelocity;	
+			if (CrossPlatformInputManager.GetButton("Sprint") && playerHasHorizontalSpeed)
+			{
+				Vector2 playerVelocity = new Vector2(horizontalThrow * sprintSpeed, myRigidBody.velocity.y);	
+				myRigidBody.velocity = playerVelocity;	
 
-			myAnimator.SetBool("Running", playerHasHorizontalSpeed);
-			myAnimator.SetBool("Sprinting", false);
-		}			
+				myAnimator.SetBool("Sprinting", true);
+			}
+			else 
+			{
+				Vector2 playerVelocity = new Vector2(horizontalThrow * runSpeed, myRigidBody.velocity.y);	
+				myRigidBody.velocity = playerVelocity;	
+
+				myAnimator.SetBool("Running", playerHasHorizontalSpeed);
+				myAnimator.SetBool("Sprinting", false);
+			}		
+		}					
 	}
 
 	private void Jump()
@@ -81,10 +97,13 @@ public class Player : MonoBehaviour
 
 	private void FlipSprite()
 	{
-		bool playerHasHorizontalSpeed = Mathf.Abs(myRigidBody.velocity.x) > Mathf.Epsilon;
-		if (playerHasHorizontalSpeed)
+		if (knockbackCount <= 0)
 		{
-			transform.localScale = new Vector2(Mathf.Sign(myRigidBody.velocity.x), 1f);
+			bool playerHasHorizontalSpeed = Mathf.Abs(myRigidBody.velocity.x) > Mathf.Epsilon;
+			if (playerHasHorizontalSpeed)
+			{
+				transform.localScale = new Vector2(Mathf.Sign(myRigidBody.velocity.x), 1f);
+			}
 		}
 	}
 
@@ -117,26 +136,61 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	private void Die()
+	private void TakeDamage()
 	{
-		if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemy", "Obstacles")) || myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Enemy", "Obstacles")))
+		if (!invulnerable)
 		{
-			isAlive = false;
-			myAnimator.SetTrigger("Dying");
-			myRigidBody.velocity = velocityAtStart;
-			Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), true);	
-			Invoke("ProcessDeathAfterDelay", 2f);	
-		}
-		else
-		{
-			Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), false);
-		}
-		
-		
+			if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemy", "Obstacles")))
+            {
+                StartInvulnerability();
+				
+                playerHitPoints--;
+                FindObjectOfType<GameSession>().TakeHeart();
+            }
+        }
 	}
 
-	private void ProcessDeathAfterDelay()
+    private void StartInvulnerability()
+    {
+        // temporary invulnerabilty after taking damage 
+        if (playerHitPoints > 1)
+        {
+            invulnerable = true;
+            myAnimator.SetTrigger("Knockback");
+            float invulnerabilityDuration = 1f;
+            Invoke("StopInvulnerability", invulnerabilityDuration);
+        }
+    }
+
+    void Knockback()
 	{
-		FindObjectOfType<GameSession>().ProcessPlayerDeath();
+		if (knockbackCount > 0)
+		{
+			if (knockFromRight)
+			{
+				myRigidBody.velocity = new Vector2(-knockbackX, knockbackY);
+			}
+			if (!knockFromRight)
+			{
+				myRigidBody.velocity = new Vector2(knockbackX, knockbackY);
+			}
+			knockbackCount -= Time.deltaTime;	
+		}			
+	}
+
+	private void StopInvulnerability()
+	{
+		invulnerable = false;	
+	}
+
+	public void Die()
+	{
+		if (playerHitPoints <= 0)
+		{
+			Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), true);			
+			myAnimator.SetTrigger("Dying");
+			myRigidBody.velocity = velocityAtStart;	
+			isAlive = false;			
+		}		
 	}
 }

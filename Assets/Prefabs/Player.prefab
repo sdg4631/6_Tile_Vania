@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 61491365902727184}
   m_Layer: 10
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1064681225533456}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 145.15, y: 5.522, z: 0}
+  m_LocalPosition: {x: 96.83, y: 2.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -138,6 +138,12 @@ MonoBehaviour:
   sprintSpeed: 14
   jumpSpeed: 17
   climbSpeed: 7
+  playerHitPoints: 3
+  knockFromRight: 1
+  knockbackCount: 0
+  knockbackLength: 0.2
+  knockbackX: 7
+  knockbackY: 2
 --- !u!212 &212190064745178810
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -171,7 +177,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1793346025
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300014, guid: 420ab538545e0a742a76f29449f22317, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
