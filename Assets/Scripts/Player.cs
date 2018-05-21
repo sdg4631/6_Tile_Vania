@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
@@ -11,6 +12,7 @@ public class Player : MonoBehaviour
 	[SerializeField] float jumpSpeed = 17f;
 	[SerializeField] float climbSpeed = 7f;
 	[SerializeField] int playerHitPoints = 3;
+	[SerializeField] float invulnerabilityDuration = 2f;
 
 	public bool knockFromRight;
 	public float knockbackCount;
@@ -18,13 +20,19 @@ public class Player : MonoBehaviour
 	public float knockbackX;
 	public float knockbackY;
 
+	public float spriteBlinkingTimer = 0.0f;
+	public float spriteBlinkingMiniDuration = 0.1f;
+	public float spriteBlinkingTotalTimer = 0.0f;
+	public bool startBlinking = false;
+
 
 
 	// State
 	bool isAlive = true;
-	bool invulnerable = false;
+	bool isInvulnerable = false;
 	
 	// Cached Component References
+	SpriteRenderer mySpriteRenderer;
 	Rigidbody2D myRigidBody;
 	Animator myAnimator;
 	CapsuleCollider2D myBodyCollider;
@@ -35,6 +43,7 @@ public class Player : MonoBehaviour
 	// Messages then methods
 	void Start() 
 	{
+		mySpriteRenderer = GetComponent<SpriteRenderer>();
 		myRigidBody = GetComponent<Rigidbody2D>();
 		myAnimator = GetComponent<Animator>();
 		myBodyCollider = GetComponent<CapsuleCollider2D>();	
@@ -43,7 +52,7 @@ public class Player : MonoBehaviour
 		velocityAtStart = myRigidBody.velocity;
 
 		// makes sure enemy collision is enabled at start
-		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), false);
+		RestoreEnemyCollision();
 	}
 	
 	void Update() 
@@ -57,9 +66,14 @@ public class Player : MonoBehaviour
 		TakeDamage();
 		Knockback();
 		Die();
+
+		if (startBlinking == true)
+		{
+			StartBlinkingEffect();
+		}
 	}
 
-	private void Run()
+    private void Run()
 	{
 		if (knockbackCount <= 0)
 		{
@@ -138,12 +152,12 @@ public class Player : MonoBehaviour
 
 	private void TakeDamage()
 	{
-		if (!invulnerable)
+		if (!isInvulnerable)
 		{
 			if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemy", "Obstacles")))
             {
                 StartInvulnerability();
-				
+				startBlinking = true;
                 playerHitPoints--;
                 FindObjectOfType<GameSession>().TakeHeart();
             }
@@ -155,11 +169,43 @@ public class Player : MonoBehaviour
         // temporary invulnerabilty after taking damage 
         if (playerHitPoints > 1)
         {
-            invulnerable = true;
+            isInvulnerable = true;
+			IgnoreEnemyCollision();
             myAnimator.SetTrigger("Knockback");
-            float invulnerabilityDuration = 1f;
             Invoke("StopInvulnerability", invulnerabilityDuration);
+			Invoke("RestoreEnemyCollision", invulnerabilityDuration);
         }
+    }
+
+	private void StopInvulnerability()
+	{
+		isInvulnerable = false;	
+	}
+
+    private void StartBlinkingEffect()
+    {
+        spriteBlinkingTotalTimer += Time.deltaTime;
+		if (spriteBlinkingTotalTimer >= invulnerabilityDuration)
+		{
+			startBlinking = false;
+			spriteBlinkingTotalTimer = 0.0f;
+			mySpriteRenderer.enabled = true;
+			return;
+		}
+
+		spriteBlinkingTimer += Time.deltaTime;
+		if (spriteBlinkingTimer >= spriteBlinkingMiniDuration)
+		{
+			spriteBlinkingTimer = 0.0f;
+			if (mySpriteRenderer.enabled == true)
+			{
+				mySpriteRenderer.enabled = false;
+			}
+			else
+			{
+				mySpriteRenderer.enabled = true;
+			}
+		}
     }
 
     void Knockback()
@@ -178,19 +224,24 @@ public class Player : MonoBehaviour
 		}			
 	}
 
-	private void StopInvulnerability()
-	{
-		invulnerable = false;	
-	}
-
 	public void Die()
 	{
 		if (playerHitPoints <= 0)
 		{
-			Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), true);			
+			IgnoreEnemyCollision();		
 			myAnimator.SetTrigger("Dying");
 			myRigidBody.velocity = velocityAtStart;	
 			isAlive = false;			
 		}		
+	}
+
+	private void RestoreEnemyCollision()
+	{
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), false);
+	}
+
+	private void IgnoreEnemyCollision()
+	{
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), true);
 	}
 }

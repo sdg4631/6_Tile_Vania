@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 70383182806811108}
   - component: {fileID: 114196492278740704}
   - component: {fileID: 61491365902727184}
+  - component: {fileID: 111229945217638848}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -123,6 +124,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!111 &111229945217638848
+Animation:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1064681225533456}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &114196492278740704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -135,15 +150,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runSpeed: 7
-  sprintSpeed: 14
+  sprintSpeed: 12
   jumpSpeed: 17
   climbSpeed: 7
   playerHitPoints: 3
+  invulnerabilityDuration: 2
   knockFromRight: 1
   knockbackCount: 0
   knockbackLength: 0.2
   knockbackX: 7
   knockbackY: 2
+  spriteBlinkingTimer: 0
+  spriteBlinkingMiniDuration: 0.1
+  spriteBlinkingTotalTimer: 0
+  startBlinking: 0
 --- !u!212 &212190064745178810
 SpriteRenderer:
   m_ObjectHideFlags: 1
