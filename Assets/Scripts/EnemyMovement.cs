@@ -37,22 +37,4 @@ public class EnemyMovement : MonoBehaviour
 	{
 		transform.localScale = new Vector2(-(Mathf.Sign(myRigidBody.velocity.x)), 1f);
 	}
-
-	void OnTriggerEnter2D(Collider2D other)
-	{
-		if (other.gameObject.tag == "Player")
-		{
-			var player = other.gameObject.GetComponent<Player>();
-			player.knockbackCount = player.knockbackLength;
-
-			if (other.transform.position.x < transform.position.x)
-			{
-				player.knockFromRight = true;
-			}
-			else
-			{
-				player.knockFromRight = false;
-			}
-		}
-	}
 }

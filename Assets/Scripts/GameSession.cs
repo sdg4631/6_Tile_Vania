@@ -7,7 +7,7 @@ using TMPro;
 
 public class GameSession : MonoBehaviour 
 {
-	[SerializeField] int playerHearts = 3;
+	[SerializeField] public int playerHearts = 3;
 	[SerializeField] int score = 0;
 
 	[SerializeField] TextMeshProUGUI scoreText;
