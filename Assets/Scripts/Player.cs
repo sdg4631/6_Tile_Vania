@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
 	[SerializeField] float runSpeed = 7f;
 	[SerializeField] float sprintSpeed = 14f;
 	[SerializeField] float jumpSpeed = 17f;
+	[SerializeField] float bounceSpeed = 15f;
 	[SerializeField] float climbSpeed = 7f;
 	[SerializeField] int playerHitPoints = 3;
 	[SerializeField] float invulnerabilityDuration = 2f;
@@ -25,6 +26,9 @@ public class Player : MonoBehaviour
 	public float spriteBlinkingTotalTimer = 0.0f;
 	public bool startBlinking = false;
 
+	public float bounceTimer = 1f;
+	public float bounceTimeoutDuration = 0.5f;
+
 
 
 	// State
@@ -35,7 +39,7 @@ public class Player : MonoBehaviour
 	SpriteRenderer mySpriteRenderer;
 	Rigidbody2D myRigidBody;
 	Animator myAnimator;
-	CapsuleCollider2D myBodyCollider;
+	PolygonCollider2D myBodyCollider;
 	BoxCollider2D myFeetCollider;
 	float gravityScaleAtStart;
 	Vector2 velocityAtStart;
@@ -46,7 +50,7 @@ public class Player : MonoBehaviour
 		mySpriteRenderer = GetComponent<SpriteRenderer>();
 		myRigidBody = GetComponent<Rigidbody2D>();
 		myAnimator = GetComponent<Animator>();
-		myBodyCollider = GetComponent<CapsuleCollider2D>();	
+		myBodyCollider = GetComponent<PolygonCollider2D>();	
 		myFeetCollider = GetComponent<BoxCollider2D>();
 		gravityScaleAtStart = myRigidBody.gravityScale;
 		velocityAtStart = myRigidBody.velocity;
@@ -63,6 +67,7 @@ public class Player : MonoBehaviour
 		Jump();
 		FlipSprite();
 		ClimbLadder();
+		BounceOffEnemy();
 		TakeDamage();
 		Knockback();
 		Die();
@@ -150,6 +155,22 @@ public class Player : MonoBehaviour
 		}
 	}
 
+    private void BounceOffEnemy()
+    {
+		// Prevents bounce to be called multiple times on collision
+		bounceTimer += Time.deltaTime;
+		if (bounceTimer >= bounceTimeoutDuration)
+		{
+			if (myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Enemy")) && !myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground")))
+			{
+				bounceTimer = 0.0f;
+
+				Vector2 bounceVelocityToAdd = new Vector2(0f, bounceSpeed);
+				myRigidBody.velocity += bounceVelocityToAdd;
+			}
+		}
+    }
+
 	private void TakeDamage()
 	{
 		if (!isInvulnerable)
@@ -210,7 +231,7 @@ public class Player : MonoBehaviour
 
     void Knockback()
 	{
-		if (knockbackCount > 0)
+		if (knockbackCount > 0 && !myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Enemy")))
 		{
 			if (knockFromRight)
 			{
