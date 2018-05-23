@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour 
 {
-	[SerializeField] float moveSpeed = 1f;
+	[SerializeField] public float enemyMoveSpeed = 1f;
 	
 	Rigidbody2D myRigidBody;
 	
@@ -19,11 +19,11 @@ public class EnemyMovement : MonoBehaviour
 	{
 		if (IsFacingRight())
 		{
-			myRigidBody.velocity = new Vector2(moveSpeed, 0);
+			myRigidBody.velocity = new Vector2(enemyMoveSpeed, 0);
 		}
 		else
 		{
-			myRigidBody.velocity = new Vector2(-moveSpeed, 0);			
+			myRigidBody.velocity = new Vector2(-enemyMoveSpeed, 0);			
 		}
 	}
 

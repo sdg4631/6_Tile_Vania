@@ -968,7 +968,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -701550549
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -4395,6 +4395,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4955214801724574, guid: 2b93e79d382da2343ad0b1a7981ae875,
     type: 2}
   m_PrefabInternal: {fileID: 1594786418}
+--- !u!1001 &1065175487
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 224845521338563212, guid: 61d4d1cf77e1df440aafeb45182ef58c,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537650056542882, guid: 61d4d1cf77e1df440aafeb45182ef58c, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -7.196778
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537650056542882, guid: 61d4d1cf77e1df440aafeb45182ef58c, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.3366285
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537650056542882, guid: 61d4d1cf77e1df440aafeb45182ef58c, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.039321207
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537650056542882, guid: 61d4d1cf77e1df440aafeb45182ef58c, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537650056542882, guid: 61d4d1cf77e1df440aafeb45182ef58c, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537650056542882, guid: 61d4d1cf77e1df440aafeb45182ef58c, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537650056542882, guid: 61d4d1cf77e1df440aafeb45182ef58c, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537650056542882, guid: 61d4d1cf77e1df440aafeb45182ef58c, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114808180896304368, guid: 61d4d1cf77e1df440aafeb45182ef58c,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114808180896304368, guid: 61d4d1cf77e1df440aafeb45182ef58c,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 61d4d1cf77e1df440aafeb45182ef58c, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!95 &1266152746 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 95465288126482556, guid: 2b93e79d382da2343ad0b1a7981ae875,
