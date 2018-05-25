@@ -28,8 +28,6 @@ public class Player : MonoBehaviour
 	public float bounceTimer = 1f;
 	public float bounceTimeoutDuration = 0.5f;
 
-
-
 	// State
 	bool isAlive = true;
 	public bool isInvulnerable = false;
@@ -51,7 +49,7 @@ public class Player : MonoBehaviour
 		myRigidBody = GetComponent<Rigidbody2D>();
 		myAnimator = GetComponent<Animator>();
 		myBodyCollider = GetComponent<PolygonCollider2D>();	
-		myFeetCollider = GetComponent<BoxCollider2D>();
+		myFeetCollider = GetComponentInChildren<BoxCollider2D>();
 		gravityScaleAtStart = myRigidBody.gravityScale;
 		velocityAtStart = myRigidBody.velocity;
 		playerHearts = FindObjectOfType<GameSession>();
@@ -176,11 +174,16 @@ public class Player : MonoBehaviour
 	{
 		if (!isInvulnerable)
 		{
-			if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemy", "Obstacles")))
+			if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("EnemyBody", "Obstacles")))
             {
                 FindObjectOfType<GameSession>().TakeHeart();
 				StartInvulnerability();
             }
+
+			if (myBodyCollider.IsTouchingLayers(LayerMask.GetMask("Water")))
+			{
+				FindObjectOfType<GameSession>().TakeHeart();
+			}
         }
 	}
 
@@ -265,11 +268,13 @@ public class Player : MonoBehaviour
 	{
 		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), false);
 		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Feet"), false);
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("EnemyBody"), LayerMask.NameToLayer("Player"), false);
 	}
 
 	private void IgnoreEnemyCollision()
 	{
 		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Player"), true);
 		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Feet"), true);
+		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("EnemyBody"), LayerMask.NameToLayer("Player"), true);
 	}
 }

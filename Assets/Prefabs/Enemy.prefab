@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 4396106492004192}
   - component: {fileID: 61409270350416822}
   - component: {fileID: 114651625524768860}
-  m_Layer: 12
+  m_Layer: 17
   m_Name: Knockback
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1353145430586320}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 110.14, y: 3.5, z: 0}
+  m_LocalPosition: {x: 119.98, y: -0.49, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4396106492004192}
@@ -165,7 +165,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.5203438, y: -0.6646136}
+  m_Offset: {x: 0.5203438, y: -0.64646626}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -176,7 +176,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.08769989, y: 0.29724765}
+  m_Size: {x: 0.08769989, y: 0.33354235}
   m_EdgeRadius: 0
 --- !u!70 &70301306794429762
 CapsuleCollider2D:
@@ -190,8 +190,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0042093527, y: 0.10345887}
-  m_Size: {x: 0.51958483, y: 0.020076545}
+  m_Offset: {x: 0.00885583, y: 0.07787053}
+  m_Size: {x: 0.76094866, y: 0.07136219}
   m_Direction: 1
 --- !u!95 &95173405109022248
 Animator:
@@ -434,7 +434,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.011083239, g: 0.6117647, b: 0, a: 1}
+      maxColor: {r: 0.75294125, g: 0.69411767, b: 0.56078434, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -1459,7 +1459,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0, g: 1, b: 0.065570354, a: 1}
+        key0: {r: 0.75294125, g: 0.69411767, b: 0.56078434, a: 1}
         key1: {r: 0, g: 0, b: 0, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}

@@ -10,13 +10,16 @@ public class EnemyDeath : MonoBehaviour
 
 	Rigidbody2D myRigidBody;			
 	Animator myAnimator;
+	CapsuleCollider2D myHeadCollider;
 	Player player;
+
 	
 
 	void Start()
 	{		
 		myRigidBody = GetComponent<Rigidbody2D>();
 		myAnimator = GetComponent<Animator>();
+		myHeadCollider = GetComponent<CapsuleCollider2D>();
 		player = FindObjectOfType<Player>();
 		
 	}
@@ -25,7 +28,7 @@ public class EnemyDeath : MonoBehaviour
 	{
 		if (player.isInvulnerable == false) 
 		{
-			if (other.gameObject.tag == "Player")		
+			if (myHeadCollider.IsTouchingLayers(LayerMask.GetMask("Feet")))		
 			{
 				gameObject.GetComponent<EnemyMovement>().enemyMoveSpeed = 0f;
 				myRigidBody.velocity = new Vector2( 0f, -5f);

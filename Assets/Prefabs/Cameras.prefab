@@ -148,7 +148,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1361489879758812}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.1474514, y: 2.029856, z: -10}
+  m_LocalPosition: {x: 1.0599208, y: 4.7422676, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4316834482958460}
@@ -176,7 +176,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1961581532943130}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.07, y: 2.01, z: -10}
+  m_LocalPosition: {x: -4.5484757, y: -4.44, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4069688339130440}
@@ -190,7 +190,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1218447445942962}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.07, y: 2.01, z: -10}
+  m_LocalPosition: {x: 1.0599208, y: 4.7422676, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4662064328200802}
@@ -510,6 +510,14 @@ MonoBehaviour:
   - m_Hash: 256545655
     m_ParentHash: 756556552
   - m_Hash: -725336713
+    m_ParentHash: 756556552
+  - m_Hash: -1752896643
+    m_ParentHash: 756556552
+  - m_Hash: 1626357514
+    m_ParentHash: 756556552
+  - m_Hash: 99817580
+    m_ParentHash: 756556552
+  - m_Hash: -741219943
     m_ParentHash: 756556552
 --- !u!114 &114963117298695846
 MonoBehaviour:

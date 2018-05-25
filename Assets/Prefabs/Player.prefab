@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 212190064745178810}
   - component: {fileID: 50754366047650824}
   - component: {fileID: 114196492278740704}
-  - component: {fileID: 61491365902727184}
   - component: {fileID: 60029461422116786}
   m_Layer: 10
   m_Name: Player
@@ -32,6 +31,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1635552690536870
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4214653911138412}
+  - component: {fileID: 61470592959077616}
+  m_Layer: 15
+  m_Name: Feet
+  m_TagString: Feet
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4214653911138412
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1635552690536870}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4955214801724574}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4955214801724574
 Transform:
   m_ObjectHideFlags: 1
@@ -41,7 +69,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 96.83, y: 2.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4214653911138412}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -89,34 +118,34 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.2619934, y: 0.30325055}
-      - {x: -0.26167297, y: -0.36473668}
-      - {x: 0.20420074, y: -0.3696444}
-      - {x: 0.24801636, y: 0.30297256}
---- !u!61 &61491365902727184
+    - - {x: -0.25300598, y: 0.30325055}
+      - {x: -0.24873352, y: -0.4566121}
+      - {x: 0.1532898, y: -0.45344985}
+      - {x: 0.15753937, y: 0.30297256}
+--- !u!61 &61470592959077616
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1064681225533456}
+  m_GameObject: {fileID: 1635552690536870}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 3a7ae245bbb12614f87e4b2b4f741c5c, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.03609085, y: -0.46282983}
+  m_Offset: {x: -0.04813385, y: -0.47434026}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.47023773, y: 0.05684042}
+  m_Size: {x: 0.4087677, y: 0.035294414}
   m_EdgeRadius: 0
 --- !u!95 &95465288126482556
 Animator:
@@ -152,7 +181,6 @@ MonoBehaviour:
   jumpSpeed: 17
   bounceSpeed: 15
   climbSpeed: 7
-  playerHitPoints: 3
   invulnerabilityDuration: 2
   knockFromRight: 1
   knockbackCount: 0
